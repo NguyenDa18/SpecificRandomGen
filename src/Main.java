@@ -18,7 +18,7 @@ public class Main {
     public static final String filePath = "/Users/newowner/Documents/RandomGen/src/test.output.txt";
 
     public static void main(String[] args) {
-        List<Integer> nums = getDataset();
+        List<Integer> nums = genDataset();
 
         try {
 
@@ -45,7 +45,53 @@ public class Main {
         catch (IOException io) {
 
         }
+        //genDataset();
 
+    }
+
+    public static List<Integer> genDataset() {
+        ArrayList<Integer> dataset = new ArrayList<>();
+        for (int i = 1; i < 13; i++) {
+            dataset.addAll(numBatch(5, i));
+        }
+
+        int num = 13;
+        for (int j = 8; j > 1; j/=2) {
+            dataset.addAll(numBatch(j, num++));
+        }
+
+        Random rgen = new Random();
+        for (int i = 0; i < dataset.size() - 1; i++) {
+            if (dataset.get(i) == dataset.get(i + 1)) {
+                int randomPosition = rgen.nextInt(dataset.size());
+                int temp = dataset.get(i);
+                if (dataset.get(i) != dataset.get(randomPosition)) {
+                    dataset.set(i, dataset.get(randomPosition));
+                    dataset.set(randomPosition, temp);
+                }
+
+            }
+        }
+
+        for (int i = 0; i < dataset.size() - 1; i++) {
+            if (dataset.get(i) == dataset.get(i + 1)) {
+                System.out.println("NOPE");
+            }
+        }
+
+        Collections.shuffle(dataset);
+
+        for (int el : dataset) {
+            System.out.println(el);
+        }
+
+        return dataset;
+
+    }
+
+    public static List<Integer> numBatch(int amt, int num) {
+        List<Integer> array = new ArrayList<>(Collections.nCopies(amt, num));
+        return array;
     }
 
     /**
@@ -66,46 +112,5 @@ public class Main {
 
             }
         }
-    }
-
-    public static List<Integer> getDataset() {
-        Random gen = new Random();
-
-        IntStream firstDistribution = gen.ints(initialDistribution, 1, 13);
-        IntStream secondDis = gen.ints(remainingDistribution, 13, 14);
-        IntStream thirdDis = gen.ints(500, 14, 15);
-        IntStream fourthDis = gen.ints(250, 15,16);
-        IntStream fifthDis = gen.ints(100, 16,17);
-        IntStream sixthDis = gen.ints(50, 17,18);
-        IntStream seventhDis = gen.ints(25, 18,19);
-        IntStream eighthDis = gen.ints(10, 19,20);
-        IntStream lastDis = gen.ints(5, 20,21);
-
-
-        IntStream total = IntStream.concat(firstDistribution, secondDis);
-        total = IntStream.concat(total, thirdDis);
-        total = IntStream.concat(total, fourthDis);
-        total = IntStream.concat(total, fifthDis);
-        total = IntStream.concat(total, sixthDis);
-        total = IntStream.concat(total, seventhDis);
-        total = IntStream.concat(total, eighthDis);
-        total = IntStream.concat(total, lastDis);
-
-
-        List<Integer> integers =
-                        total       // <-- take our combined IntStream dataset
-                        .boxed() // <-- converts them to Integers
-                        .collect(Collectors.toList());          // <-- collects the values to a list
-
-        Collections.sort(integers);
-
-        Collections.shuffle(integers, new Random(System.nanoTime()));
-
-        // shuffle twice for assurance of no consecutives
-        Collections.shuffle(integers, new Random(System.nanoTime()));
-        Collections.shuffle(integers, new Random(5));
-
-        return integers;
-
     }
 }
