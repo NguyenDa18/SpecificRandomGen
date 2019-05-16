@@ -13,8 +13,9 @@ import java.io.*;
  */
 
 public class Main {
-    public static final int firstDistribution = 83000;
-    public static final int secondDistribution = 1000;
+    public static final int initialDistribution = 83000;
+    public static final int remainingDistribution = 1000;
+    public static final String filePath = "/Users/newowner/Documents/RandomGen/src/output.txt";
 
     public static void main(String[] args) {
         List<Integer> nums = getDataset();
@@ -24,7 +25,7 @@ public class Main {
 
         try {
 
-            FileWriter writer = new FileWriter("/Users/newowner/Documents/RandomGen/src/output.txt", true);
+            FileWriter writer = new FileWriter(filePath, true);
             BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
             // Loop over the elements in the string array and write each line.
@@ -55,7 +56,7 @@ public class Main {
      * @throws IOException
      */
     public static void readLines() throws IOException {
-        File file = new File("/Users/newowner/Documents/RandomGen/src/output.txt");
+        File file = new File(filePath);
 
         BufferedReader br = new BufferedReader(new FileReader(file));
         int lineCount = 0;
@@ -73,8 +74,8 @@ public class Main {
     public static List<Integer> getDataset() {
         Random gen = new Random();
 
-        IntStream firstDistribution = gen.ints(83000, 1, 13);
-        IntStream secondDis = gen.ints(1000, 13, 14);
+        IntStream firstDistribution = gen.ints(initialDistribution, 1, 13);
+        IntStream secondDis = gen.ints(remainingDistribution, 13, 14);
         IntStream thirdDis = gen.ints(500, 14, 15);
         IntStream fourthDis = gen.ints(250, 15,16);
         IntStream fifthDis = gen.ints(100, 16,17);
@@ -82,7 +83,6 @@ public class Main {
         IntStream seventhDis = gen.ints(25, 18,19);
         IntStream eighthDis = gen.ints(10, 19,20);
         IntStream lastDis = gen.ints(5, 20,21);
-
 
 
         IntStream total = IntStream.concat(firstDistribution, secondDis);
