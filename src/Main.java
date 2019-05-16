@@ -1,3 +1,5 @@
+import org.omg.CORBA.Object;
+
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.*;
@@ -15,7 +17,8 @@ import java.io.*;
 public class Main {
     public static final int initialDistribution = 83000;
     public static final int remainingDistribution = 1000;
-    public static final String filePath = "/Users/newowner/Documents/RandomGen/src/test.output.txt";
+//    public static final String filePath = "/Users/newowner/Documents/RandomGen/src/test.output.txt";
+    public static final String filePath = "CHANGE_ME_ABSOLUTE_FILEPATH/src/test.output.txt";
 
     public static void main(String[] args) {
         List<Integer> nums = genDataset();
@@ -45,44 +48,44 @@ public class Main {
         catch (IOException io) {
 
         }
-        //genDataset();
 
     }
 
     public static List<Integer> genDataset() {
         ArrayList<Integer> dataset = new ArrayList<>();
         for (int i = 1; i < 13; i++) {
-            dataset.addAll(numBatch(5, i));
+            dataset.addAll(numBatch(initialDistribution, i));
         }
 
         int num = 13;
-        for (int j = 8; j > 1; j/=2) {
+        for (int j = remainingDistribution; j > 1; j/=2) {
             dataset.addAll(numBatch(j, num++));
-        }
-
-        Random rgen = new Random();
-        for (int i = 0; i < dataset.size() - 1; i++) {
-            if (dataset.get(i) == dataset.get(i + 1)) {
-                int randomPosition = rgen.nextInt(dataset.size());
-                int temp = dataset.get(i);
-                if (dataset.get(i) != dataset.get(randomPosition)) {
-                    dataset.set(i, dataset.get(randomPosition));
-                    dataset.set(randomPosition, temp);
-                }
-
-            }
-        }
-
-        for (int i = 0; i < dataset.size() - 1; i++) {
-            if (dataset.get(i) == dataset.get(i + 1)) {
-                System.out.println("NOPE");
-            }
         }
 
         Collections.shuffle(dataset);
 
-        for (int el : dataset) {
-            System.out.println(el);
+        // checking for consecutives
+        List<Integer> sublist = new ArrayList<>();
+        for (int i = 0; i < dataset.size() - 1; i++) {
+            if (dataset.get(i) == dataset.get(i + 1)) {
+                sublist = dataset.subList(0, i + 1);
+                Collections.reverse(sublist);
+            }
+        }
+
+        // checking one more time for consecs
+        for (int i = 0; i < dataset.size() - 1; i++) {
+            if (dataset.get(i) == dataset.get(i + 1)) {
+                sublist = dataset.subList(0, i + 1);
+                Collections.reverse(sublist);
+            }
+        }
+
+        for (int i = 0; i < dataset.size() - 1; i++) {
+            System.out.println("Element: " + dataset.get(i));
+            if (dataset.get(i) == dataset.get(i + 1)) {
+                System.out.println("STILL FOUND CONSECUTIVES");
+            }
         }
 
         return dataset;
