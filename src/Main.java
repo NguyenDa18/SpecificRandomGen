@@ -15,13 +15,10 @@ import java.io.*;
 public class Main {
     public static final int initialDistribution = 83000;
     public static final int remainingDistribution = 1000;
-    public static final String filePath = "/Users/newowner/Documents/RandomGen/src/output.txt";
+    public static final String filePath = "/Users/newowner/Documents/RandomGen/src/test.output.txt";
 
     public static void main(String[] args) {
         List<Integer> nums = getDataset();
-        for (int num : nums) {
-            System.out.println(num);
-        }
 
         try {
 
@@ -106,6 +103,7 @@ public class Main {
 
         // shuffle twice for assurance of no consecutives
         Collections.shuffle(integers, new Random(System.nanoTime()));
+        Collections.shuffle(integers, new Random(5));
 
         return integers;
 

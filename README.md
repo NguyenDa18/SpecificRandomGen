@@ -1,5 +1,7 @@
 # Java Random Number Generator Test Questionnaire
 
+## * Remember to change file path for test.output.txt relative to the machine you are running the code on *
+
 1. Generate randomized dataset of numbers (1 to 20)
 2. Should contain following distribution:
 - 1-12 = 83000
