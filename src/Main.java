@@ -56,11 +56,14 @@ public class Main {
         for (int i = 1; i < 13; i++) {
             dataset.addAll(numBatch(initialDistribution, i));
         }
-
-        int num = 13;
-        for (int j = remainingDistribution; j > 1; j/=2) {
-            dataset.addAll(numBatch(j, num++));
-        }
+        dataset.addAll(numBatch(1000, 13));
+        dataset.addAll(numBatch(500, 14));
+        dataset.addAll(numBatch(250, 15));
+        dataset.addAll(numBatch(100, 16));
+        dataset.addAll(numBatch(50, 17));
+        dataset.addAll(numBatch(25, 18));
+        dataset.addAll(numBatch(10, 19));
+        dataset.addAll(numBatch(5, 20));
 
         Collections.shuffle(dataset);
 
